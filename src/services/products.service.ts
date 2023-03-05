@@ -26,13 +26,19 @@ export class ProductsService {
     return this.products.push(product);
   }
   update(id: number, product: Product) {
-    const productToFind = this.products.find((p) => (p.id = id));
-    product = { id: id, ...product };
-    delete this.products[this.products.lastIndexOf(productToFind)];
-    return this.products.push(product);
+    const productToUpdate = this.findOne(id);
+    if (productToUpdate) {
+      const index = this.products.findIndex((item) => item.id === id);
+      this.products[index] = {
+        ...productToUpdate,
+        ...product,
+      };
+      return this.products[index];
+    }
+    return null;
   }
-  delete(id: number) {
-    const productToFind = this.products.find((p) => (p.id = id));
-    delete this.products[this.products.lastIndexOf(productToFind)];
+  deleteProduct(id: number) {
+    const index = this.products.findIndex((p) => p.id == id);
+    delete this.products[index];
   }
 }

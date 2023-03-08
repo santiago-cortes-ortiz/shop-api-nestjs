@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Product } from '../models/Product';
 
 @Injectable()
@@ -18,7 +18,11 @@ export class ProductsService {
     return this.products;
   }
   findOne(id: number) {
-    return this.products.find((p) => p.id == id);
+    const product = this.products.find((p) => p.id == id);
+    if (!product) {
+      throw new NotFoundException(`Product with #${id} not found`);
+    }
+    return product;
   }
   create(product: Product) {
     this.counter = this.counter + 1;
@@ -39,6 +43,9 @@ export class ProductsService {
   }
   deleteProduct(id: number) {
     const index = this.products.findIndex((p) => p.id == id);
+    if (index === -1) {
+      throw new NotFoundException(`Product with #${id} not found`);
+    }
     delete this.products[index];
   }
 }

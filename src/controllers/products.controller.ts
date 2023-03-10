@@ -12,6 +12,7 @@ import {
   ParseIntPipe,
 } from '@nestjs/common';
 import { ProductsService } from '../services/products.service';
+import { CreateProductDto } from 'src/dtos/product.dto';
 
 @Controller('products')
 export class ProductsController {
@@ -33,7 +34,7 @@ export class ProductsController {
   }
 
   @Post()
-  create(@Body() payload: any) {
+  create(@Body() payload: CreateProductDto) {
     return this._productService.create(payload);
   }
 

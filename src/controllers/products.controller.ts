@@ -12,7 +12,7 @@ import {
   ParseIntPipe,
 } from '@nestjs/common';
 import { ProductsService } from '../services/products.service';
-import { CreateProductDto } from 'src/dtos/product.dto';
+import { CreateProductDto,UpdateProductDto } from 'src/dtos/product.dto';
 
 @Controller('products')
 export class ProductsController {
@@ -26,23 +26,19 @@ export class ProductsController {
     // return `products limit: ${limit} offset: ${offset} brand: ${brand}`;
     return this._productService.findAll();
   }
-
   @Get('/:productId')
   @HttpCode(HttpStatus.ACCEPTED)
   getProduct(@Param('productId', ParseIntPipe) productId: number) {
     return this._productService.findOne(productId);
   }
-
   @Post()
   create(@Body() payload: CreateProductDto) {
     return this._productService.create(payload);
   }
-
   @Put('/:id')
-  update(@Param('id') id: number, @Body() payload: any) {
+  update(@Param('id') id: number, @Body() payload: UpdateProductDto) {
     return this._productService.update(id, payload);
   }
-
   @Delete('/:id')
   delete(@Param('id') id: number) {
     this._productService.deleteProduct(id);
